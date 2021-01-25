@@ -5,6 +5,16 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Login from '../../components/login'
+import faker from 'faker'
+
+// ** EXTRA CREDIT 2 ** - Setting a random username/password is a good idea because if another user comes and looks at your test implimentation they may think that 'Chris' and 'password' are important values. By randomising your results you make clear that your form should take in any data.
+function buildLoginForm() {
+  return {
+    username: faker.internet.userName(),
+    password: faker.internet.password(),
+  }
+}
+
 
 test('submitting the form calls onSubmit with username and password', () => {
   // let submittedData = null
@@ -12,10 +22,11 @@ test('submitting the form calls onSubmit with username and password', () => {
 
   // ** EXTRA CREDIT 1 ** - Use a jest mock function (This is better than creating a local variable)
   const handleSubmit = jest.fn()
-  const username = 'Chris'
-  const password = 'password'
+  // const username = 'Chris'
+  // const password = 'password'
 
   render(<Login onSubmit={handleSubmit} />)
+  const { username, password } = buildLoginForm()
 
   userEvent.type(screen.getByLabelText(/username/i), username)
   userEvent.type(screen.getByLabelText(/password/i), password)
