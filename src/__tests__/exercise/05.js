@@ -84,3 +84,27 @@ test(`login failed`, async () => {
   expect(screen.getByText('password required')).toMatchSnapshot()
 
 })
+
+// ** EXTRA CREDIT 4 ** - We should check that there is a solution to a random server fail.. this is an example of how we might test a 500 error. The server request here will over-ride the one we've made above or externally imported as it's using the same url. The returned fail message should be structured correctly in JSON or it will fail.
+
+test(`sever failed for unknown reason`, async () => {
+  const testErrorMessage = 'Oh no, something bad happened'
+  server.use(
+    rest.post(
+      // note that it's the same URL as our app-wide handler
+      // so this will override the other.
+      'https://auth-provider.example.com/api/login',
+      async (req, res, ctx) => {
+        return res(ctx.status(500), ctx.json({ message: testErrorMessage }))
+      },
+    ),
+  )
+
+  render(<Login />)
+
+  userEvent.click(screen.getByRole('button', { name: /submit/i }))
+
+  await waitForElementToBeRemoved(() => screen.getByLabelText('loading...'))
+
+  expect(screen.getByRole('alert')).toHaveTextContent(testErrorMessage)
+})
