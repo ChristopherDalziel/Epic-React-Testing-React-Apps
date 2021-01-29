@@ -8,6 +8,7 @@ import { build, fake } from '@jackfranklin/test-data-bot'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import Login from '../../components/login-submission'
+import { handlers } from 'test/server-handlers'
 
 const buildLoginForm = build({
   fields: {
@@ -18,12 +19,17 @@ const buildLoginForm = build({
 
 // ** STEP ONE ** - Setup sever with making url of the actual call? async return the request, response and context. Return the JSON object that holds the username.
 const server = setupServer(
-  rest.post(
-    'https://auth-provider.example.com/api/login',
-    async (req, res, ctx) => {
-      return res(ctx.json({ username: req.body.username }))
-    },
-  ),
+  // rest.post(
+  //   'https://auth-provider.example.com/api/login',
+  //   async (req, res, ctx) => {
+  //     return res(ctx.json({ username: req.body.username }))
+  //   },
+  // ),
+
+  // ** EXTRA CREDIT 1 ** - Import external hanlders file, this is a good idea when you're using your sever/requests in multiple places. (This can also be done by destructuring the import '...hanlders')
+
+  handlers[0]
+
 )
 
 // ** STEP TWO ** - Before each test listen for the sever, after each close the connection, this is a type of cleanup. 
