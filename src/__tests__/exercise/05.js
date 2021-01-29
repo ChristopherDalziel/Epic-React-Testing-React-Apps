@@ -61,6 +61,19 @@ test(`logging in displays the user's username`, async () => {
 
 // ** EXTRA CREDIT 2 ** - Create a test to cover what happens when a login fails, in this test we should probably also input the username however when you insert nothing.. the password required error still occurs. I believe the password required is also an  alert so 'getByRole('alert') could be used here if so.
 
+// test(`login failed`, async () => {
+//   render(<Login />)
+
+//   userEvent.click(screen.getByRole('button', { name: /submit/i }))
+
+//   await waitForElementToBeRemoved(() => screen.getByLabelText('loading...'))
+
+//   expect(screen.getByText('password required')).toBeInTheDocument()
+
+// })
+
+// ** EXTRA CREDIT 3 ** Snapshot test
+
 test(`login failed`, async () => {
   render(<Login />)
 
@@ -68,6 +81,6 @@ test(`login failed`, async () => {
 
   await waitForElementToBeRemoved(() => screen.getByLabelText('loading...'))
 
-  expect(screen.getByText('password required')).toBeInTheDocument()
+  expect(screen.getByText('password required')).toMatchSnapshot()
 
 })
