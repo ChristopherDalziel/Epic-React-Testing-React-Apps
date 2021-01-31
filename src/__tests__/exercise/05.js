@@ -20,11 +20,17 @@ const buildLoginForm = build({
   },
 })
 
-// ** STEP ONE ** - Setup sever with making url of the actual call? async return the request, response and context. Return the JSON object that holds the username.
+// ** STEP ONE ** - Setup sever with making url of the actual call? async return the request, response and context. Return the JSON object that holds the username. We also want this step to mock our backend as closely as possible - For example our api request allows for a 400 return so.. we should mock that same behaviour here.
 const server = setupServer(
   // rest.post(
   //   'https://auth-provider.example.com/api/login',
   //   async (req, res, ctx) => {
+  //     if (!req.body.password) {
+  //       return res(ctx.status(400), ctx.json({ message: 'password required' }))
+  //     }
+  //     if (!req.body.username) {
+  //       return res(ctx.status(400), ctx.json({ username: 'username required' }))
+  //     }
   //     return res(ctx.json({ username: req.body.username }))
   //   },
   // ),
