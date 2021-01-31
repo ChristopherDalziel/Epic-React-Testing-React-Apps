@@ -10,8 +10,7 @@ import { setupServer } from 'msw/node'
 import Login from '../../components/login-submission'
 import { handlers } from 'test/server-handlers'
 
-// ** REMEBER THAT screen.debug() is essentially console.log within a test!!! 
-
+// ** REMEBER THAT screen.debug() is essentially console.log within a test!!!
 
 const buildLoginForm = build({
   fields: {
@@ -37,11 +36,10 @@ const server = setupServer(
 
   // ** EXTRA CREDIT 1 ** - Import external hanlders file, this is a good idea when you're using your sever/requests in multiple places. (This can also be done by destructuring the import '...hanlders')
 
-  handlers[0]
-
+  handlers[0],
 )
 
-// ** STEP TWO ** - Before each test listen for the sever, after each close the connection, this is a type of cleanup. 
+// ** STEP TWO ** - Before each test listen for the sever, after each close the connection, this is a type of cleanup.
 
 beforeAll(() => server.listen())
 afterAll(() => server.close())
@@ -81,7 +79,7 @@ test(`logging in displays the user's username`, async () => {
 
 // })
 
-// ** EXTRA CREDIT 3 ** Snapshot test
+// ** EXTRA CREDIT 3 ** Snapshot test. Snapshot tests are a good idea because if our error message was to change we'd have to manually change the test. However with a snapshot we can just evaluate the snapshot fail and update it as required. We can use .textContent instead of matching the entire body / div / whatever it will just match the 'password required' text content.
 
 test(`login failed`, async () => {
   render(<Login />)
@@ -90,8 +88,11 @@ test(`login failed`, async () => {
 
   await waitForElementToBeRemoved(() => screen.getByLabelText('loading...'))
 
-  expect(screen.getByText('password required')).toMatchSnapshot()
+  // expect(screen.getByText('password required')).toMatchSnapshot()
 
+  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
+    `"password required"`,
+  )
 })
 
 // ** EXTRA CREDIT 4 ** - We should check that there is a solution to a random server fail.. this is an example of how we might test a 500 error. The server request here will over-ride the one we've made above or externally imported as it's using the same url. The returned fail message should be structured correctly in JSON or it will fail.
