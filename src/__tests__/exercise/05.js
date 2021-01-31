@@ -10,6 +10,9 @@ import { setupServer } from 'msw/node'
 import Login from '../../components/login-submission'
 import { handlers } from 'test/server-handlers'
 
+// ** REMEBER THAT screen.debug() is essentially console.log within a test!!! 
+
+
 const buildLoginForm = build({
   fields: {
     username: fake(f => f.internet.userName()),
