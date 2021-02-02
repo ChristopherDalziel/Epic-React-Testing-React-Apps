@@ -80,7 +80,7 @@ test('exposes the count and increment/decrement with a fake component and setup 
   expect(result.current.count).toBe(1)
 })
 
-// ** EXTRA CREDIT THREE ** 
+// ** EXTRA CREDIT THREE ** - Now that we've done this, we can remove the setup function in the last extra credit, and use react-hooks-testing-library. We can use this to destructure result from renderHook and use our useCounter. Like above we're able to update the arguments and the intialProps. 
 test('exposes the count and increment/decrement with a fake component, handled by react-hooks testing library', () => {
   const { result } = renderHook(() => useCounter())
 
