@@ -54,7 +54,30 @@ test('exposes the count and increment/decrement functions with a fake component'
     result.decrement()
   })
   expect(result.count).toBe(0)
+})
 
+// ** EXTRA CREDIT TWO ** 
+test('exposes the count and increment/decrement with a fake component and setup function', () => {
+  function setupFunction({ initialProps } = {}) {
+    const result = {}
+    function TestComponent(props) {
+      result.current = useCounter(props)
+      return null
+    }
+    render(<TestComponent {...initialProps} />)
+    return result
+  }
+
+  const result = setupFunction({ steps: 1 })
+  expect(result.current.count).toBe(0)
+  act(() => {
+    result.current.increment()
+  })
+  expect(result.current.count).toBe(1)
+  act(() => {
+    result.current.decrement()
+  })
+  expect(result.current.count).toBe(0)
 })
 
 /* eslint no-unused-vars:0 */
