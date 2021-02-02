@@ -5,6 +5,7 @@ import * as React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useCounter from '../../components/use-counter'
+import { act } from 'react-dom/test-utils'
 
 
 // ** STEP ONE ** - Create a component that your custom hook will use
@@ -29,10 +30,31 @@ test('exposes the count and increment/decrement functions', () => {
 
   // ** STEP THREE ** - Assert the default / beginning state and then interact with the UI using userEvent and assert on the changes to the UI
   expect(message).toHaveTextContent('Counter: 0')
-  userEvent.click(screen.getByText('increment'))
+  userEvent.click(increment)
   expect(message).toHaveTextContent('Counter: 1')
-  userEvent.click(screen.getByText('decrement'))
+  userEvent.click(decrement)
   expect(message).toHaveTextContent('Counter: 0')
+})
+
+// ** EXTRA CREDIT ONE ** - Use a fake component for simplicity
+test('exposes the count and increment/decrement functions with a fake component', () => {
+  let result
+  function TestComponent() {
+    result = useCounter()
+    return null
+  }
+  render(<TestComponent />)
+
+  expect(result.count).toBe(0)
+  act(() => {
+    result.increment()
+  })
+  expect(result.count).toBe(1)
+  act(() => {
+    result.decrement()
+  })
+  expect(result.count).toBe(0)
+
 })
 
 /* eslint no-unused-vars:0 */
