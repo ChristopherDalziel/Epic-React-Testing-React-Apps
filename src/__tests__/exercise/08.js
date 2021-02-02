@@ -6,6 +6,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useCounter from '../../components/use-counter'
 import { act } from 'react-dom/test-utils'
+import { renderHook } from '@testing-library/react-hooks'
+
 
 
 // ** STEP ONE ** - Create a component that your custom hook will use
@@ -70,6 +72,22 @@ test('exposes the count and increment/decrement with a fake component and setup 
 
   const result = setupFunction({ steps: 1 })
   expect(result.current.count).toBe(0)
+  act(() => {
+    result.current.increment()
+  })
+  expect(result.current.count).toBe(1)
+  act(() => {
+    result.current.decrement()
+  })
+  expect(result.current.count).toBe(0)
+})
+
+// ** EXTRA CREDIT THREE ** 
+test('exposes the count and increment/decrement with a fake component, handled by react-hooks testing library', () => {
+  const { result } = renderHook(() => useCounter())
+
+  expect(result.current.count).toBe(0)
+
   act(() => {
     result.current.increment()
   })
